@@ -11,6 +11,21 @@ html {
   color: #0a0a08;
 }
 
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(240, 233, 216, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(240, 233, 216, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-group:hover .marquee-track {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
