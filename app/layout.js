@@ -14,7 +14,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "MemeBid — Outbid. Take #1.",
+  title: "Memvoro — Outbid. Take #1.",
   description:
     "The live, pay-to-rank leaderboard for memecoin projects. The internet decides.",
 };

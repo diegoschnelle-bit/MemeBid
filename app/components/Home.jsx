@@ -63,7 +63,7 @@ export default function Home({ projects }) {
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-7">
         <div className="flex items-center gap-2">
           <Crown className="h-6 w-6 text-volt" />
-          <span className="text-lg font-bold tracking-tight">MemeBid</span>
+          <span className="text-lg font-bold tracking-tight">Memvoro</span>
         </div>
         <button
           onClick={() => setModalTarget("new")}

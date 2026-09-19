@@ -1,4 +1,4 @@
-# MemeBid
+# Memvoro
 
 Leaderboard pay-to-rank para proyectos de memecoin. El proyecto que más paga
 acumulado, ocupa el #1. Next.js + Stripe + Supabase.
@@ -44,7 +44,7 @@ leaderboard se actualiza solo — vía el webhook, nunca al cerrar el modal.
    Vercel detecta Next.js automáticamente, no hay que tocar nada de build.
 3. En **Settings → Environment Variables** de Vercel, añade las mismas 4
    variables de `.env.local` (con la `APP_URL` apuntando a tu dominio real
-   de Vercel, ej. `https://memebid.vercel.app`).
+   de Vercel, ej. `https://memvoro.vercel.app`).
 4. Haz deploy.
 5. En el dashboard de Stripe, ve a **Developers → Webhooks → Add endpoint**,
    apunta a `https://tu-dominio.vercel.app/api/webhook`, y selecciona el

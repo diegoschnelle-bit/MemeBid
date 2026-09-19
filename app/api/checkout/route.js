@@ -48,9 +48,9 @@ export async function POST(req) {
           currency: "usd",
           product_data: {
             name: projectId
-              ? `Outbid on MemeBid — ${name || projectId}`
-              : `Join the MemeBid leaderboard — ${name}`,
-            description: "Ranking spot on the MemeBid live leaderboard.",
+              ? `Outbid on Memvoro — ${name || projectId}`
+              : `Join the Memvoro leaderboard — ${name}`,
+            description: "Ranking spot on the Memvoro live leaderboard.",
           },
           unit_amount: Math.round(bidAmount * 100),
         },
