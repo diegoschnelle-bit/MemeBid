@@ -1,4 +1,4 @@
-import { getLeaderboard } from "@/lib/store";
+import { getLeaderboard, getTodayLeaderboard, getHallOfFame } from "@/lib/store";
 import Home from "./components/Home";
 
 // The leaderboard changes every time someone pays, so it must never be
@@ -6,6 +6,17 @@ import Home from "./components/Home";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const projects = await getLeaderboard();
-  return <Home projects={projects} />;
+  const [allTimeProjects, todayProjects, hallOfFame] = await Promise.all([
+    getLeaderboard(),
+    getTodayLeaderboard(),
+    getHallOfFame(),
+  ]);
+
+  return (
+    <Home
+      allTimeProjects={allTimeProjects}
+      todayProjects={todayProjects}
+      hallOfFame={hallOfFame}
+    />
+  );
 }

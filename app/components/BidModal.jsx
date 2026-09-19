@@ -2,11 +2,24 @@
 
 import { useState } from "react";
 
-const QUICK_AMOUNTS = [25, 100, 500];
+const MIN_BID = 1;
+const QUICK_AMOUNTS = [1, 5, 25, 100];
 
-export default function BidModal({ target, onClose }) {
+// Like outbid.lol: if you're not already #1, you don't have to out-earn
+// the leader's entire total to take the spot — just beat it by $1 on top
+// of what you've already got in. Cheaper to reclaim than a fresh bid,
+// which is what keeps people coming back to fight over the spot.
+function suggestedAmount(target, leaderTotal, currentValue) {
+  if (target === "new") return QUICK_AMOUNTS[1];
+  if (!leaderTotal || currentValue >= leaderTotal) return MIN_BID;
+  return Math.max(MIN_BID, leaderTotal - currentValue + 1);
+}
+
+export default function BidModal({ target, leaderTotal, valueField = "totalBid", onClose }) {
   const isNew = target === "new";
-  const [amount, setAmount] = useState(isNew ? 25 : 0);
+  const currentValue = isNew ? 0 : target[valueField] ?? target.totalBid ?? 0;
+  const toRetake = !isNew && leaderTotal && currentValue < leaderTotal;
+  const [amount, setAmount] = useState(suggestedAmount(target, leaderTotal, currentValue));
   const [name, setName] = useState("");
   const [ticker, setTicker] = useState("");
   const [description, setDescription] = useState("");
@@ -18,8 +31,8 @@ export default function BidModal({ target, onClose }) {
     e.preventDefault();
     setError("");
 
-    if (!amount || amount < 10) {
-      setError("Minimum bid is $10.");
+    if (!amount || amount < MIN_BID || !Number.isInteger(Number(amount))) {
+      setError(`Bids are whole dollars, $${MIN_BID} minimum.`);
       return;
     }
     if (isNew && !name.trim()) {
@@ -116,19 +129,31 @@ export default function BidModal({ target, onClose }) {
             <p className="text-sm text-bone">
               Currently at{" "}
               <span className="font-mono text-cream">
-                ${target.totalBid.toLocaleString("en-US")}
+                ${currentValue.toLocaleString("en-US")}
               </span>
-              . Bid higher to take the spot.
+              .{" "}
+              {toRetake ? (
+                <>
+                  Bid{" "}
+                  <span className="font-mono text-volt">
+                    ${suggestedAmount(target, leaderTotal, currentValue).toLocaleString("en-US")}
+                  </span>{" "}
+                  or more to take #1.
+                </>
+              ) : (
+                "Bid higher to take the spot."
+              )}
             </p>
           )}
 
           <div>
-            <label className="text-xs text-bone">Bid amount (USD)</label>
+            <label className="text-xs text-bone">Bid amount (USD, whole dollars)</label>
             <input
               type="number"
-              min={10}
+              min={MIN_BID}
+              step={1}
               value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              onChange={(e) => setAmount(Math.round(Number(e.target.value)))}
               className="mt-1 w-full rounded border border-cream/20 bg-ink px-3 py-2 font-mono text-sm text-cream outline-none focus:border-volt"
             />
             <div className="mt-2 flex gap-2">
